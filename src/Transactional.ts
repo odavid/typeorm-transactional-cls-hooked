@@ -68,7 +68,7 @@ export function Transactional(
             if (currentTransaction) {
               return runOriginal()
             }
-            runWithNewTransaction()
+            return runWithNewTransaction()
           case Propagation.REQUIRES_NEW:
             runWithNewTransaction()
           case Propagation.SUPPORTS:
