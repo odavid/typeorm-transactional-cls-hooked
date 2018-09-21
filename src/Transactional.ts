@@ -7,16 +7,15 @@ import {
 } from './common'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
-
 /**
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
  * @param connectionName - the typeorm connection name. 'default' by default
  * @param propagation - The transaction propagation type. see {@link Propagation}
  */
-export function Transactional(
-  connectionName: string = 'default',
-  propagation: Propagation = Propagation.REQUIRES_NEW
-): MethodDecorator {
+export function Transactional({
+  connectionName = 'default',
+  propagation = Propagation.REQUIRED,
+}): MethodDecorator {
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
@@ -28,8 +27,8 @@ export function Transactional(
         )
       }
 
-      const runOriginal = () => originalMethod.apply(this, [...args])
-      const runWithNewTransaction = () =>
+      const runOriginal = async () => originalMethod.apply(this, [...args])
+      const runWithNewTransaction = async () =>
         getManager(connectionName).transaction(async entityManager => {
           setEntityManagerForConnection(connectionName, context, entityManager)
           const result = await originalMethod.apply(this, [...args])
@@ -39,6 +38,7 @@ export function Transactional(
 
       return context.runAndReturn(async () => {
         const currentTransaction = getEntityManagerForConnection(connectionName, context)
+
         switch (propagation) {
           case Propagation.MANDATORY:
             if (!currentTransaction) {
@@ -52,7 +52,7 @@ export function Transactional(
           case Propagation.NEVER:
             if (currentTransaction) {
               throw new TransactionalError(
-                "Found an existing transaction found for transaction marked with propagation 'NEVER'"
+                "Found an existing transaction, transaction marked with propagation 'NEVER'"
               )
             }
             return runOriginal()
@@ -70,7 +70,7 @@ export function Transactional(
             }
             return runWithNewTransaction()
           case Propagation.REQUIRES_NEW:
-            runWithNewTransaction()
+            return runWithNewTransaction()
           case Propagation.SUPPORTS:
             return runOriginal()
         }
