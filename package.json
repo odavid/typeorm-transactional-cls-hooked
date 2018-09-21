@@ -1,0 +1,52 @@
+{
+  "name": "typeorm-trasactional-cls-hooked",
+  "version": "0.1.0",
+  "description": "A Transactional Method Decorator for typeorm that uses cls-hooked to handle and propagate transactions between different repositories and service methods. Inpired by Spring Trasnactional Annotation and Sequelize CLS",
+  "main": "dist/index.js",
+  "author": {
+    "name": "Ohad David",
+    "email": "ohad.david@gmail.com"
+  },
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "tags": [
+    "typescript",
+    "typescript-orm",
+    "typeorm",
+    "orm",
+    "cls-hooked",
+    "transaction",
+    "decorator"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "lint": "tslint -p tsconfig.json -c tslint.json ./src/**/*.ts",
+    "clean": "rm -rf ./dist",
+    "build": "yarn clean && tsc",
+    "typedoc": "typedoc --out ./docs src/**.ts"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/cls-hooked": "^4.2.1",
+    "@types/jest": "^23.3.2",
+    "cls-hooked": "^4.2.2",
+    "prettier": "^1.14.3",
+    "reflect-metadata": "^0.1.12",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typedoc": "^0.12.0",
+    "typeorm": "^0.2.7",
+    "typescript": "^3.0.3"
+  },
+  "peerDependencies": {
+    "cls-hooked": ">= ^4.2.2",
+    "reflect-metadata": ">= ^0.1.12",
+    "typeorm": ">= ^0.2.7"
+  }
+}
