@@ -7,15 +7,19 @@ import {
 } from './common'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
+
 /**
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
  * @param connectionName - the typeorm connection name. 'default' by default
  * @param propagation - The transaction propagation type. see {@link Propagation}
  */
-export function Transactional({
-  connectionName = 'default',
-  propagation = Propagation.REQUIRED,
+export function Transactional(options?: {
+  connectionName?: string
+  propagation?: Propagation
 }): MethodDecorator {
+  const connectionName: string = options ? options.connectionName ? options.connectionName : 'default' : 'default'
+  const propagation: Propagation = options ? options.propagation ? options.propagation : Propagation.REQUIRED : Propagation.REQUIRED
+
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
