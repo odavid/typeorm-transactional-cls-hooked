@@ -45,8 +45,8 @@
     "typescript": "^3.0.3"
   },
   "peerDependencies": {
-    "cls-hooked": ">= ^4.2.2",
-    "reflect-metadata": ">= ^0.1.12",
-    "typeorm": ">= ^0.2.7"
+    "cls-hooked": ">= 4.2.2",
+    "reflect-metadata": ">= 0.1.12",
+    "typeorm": ">= 0.2.7"
   }
 }
