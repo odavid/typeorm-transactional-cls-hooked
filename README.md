@@ -1,4 +1,4 @@
-# typeorm-trasactional-cls-hooked
+# typeorm-transactional-cls-hooked
 
 A `Transactional` Method Decorator for [typeorm](https://github.com/nestjs/typeorm) that uses [cls-hooked](https://www.npmjs.com/package/cls-hooked) to handle and propagate transactions between different repositories and service methods.
 
@@ -7,7 +7,7 @@ Inpired by [Spring Trasnactional](https://docs.spring.io/spring-framework/docs/c
 ## Installation
 
 ```shell
-yarn add typeorm-trasactional-cls-hooked
+yarn add typeorm-transactional-cls-hooked
 ## Needed dependencies
 yarn add cls-hooked typeorm
 ```
@@ -15,7 +15,7 @@ yarn add cls-hooked typeorm
 Or
 
 ```shell
-npm install --save typeorm-trasactional-cls-hooked
+npm install --save typeorm-transactional-cls-hooked
 ## Needed dependencies
 npm install --save cls-hooked typeorm
 ```
