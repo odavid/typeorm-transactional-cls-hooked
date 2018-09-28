@@ -2,7 +2,7 @@
 
 A `Transactional` Method Decorator for [typeorm](https://github.com/nestjs/typeorm) that uses [cls-hooked](https://www.npmjs.com/package/cls-hooked) to handle and propagate transactions between different repositories and service methods.
 
-Inpired by [Spring Trasnactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) Annotation and [Sequelize CLS](http://docs.sequelizejs.com/manual/tutorial/transactions.html)
+Inpired by [Spring Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) Annotation and [Sequelize CLS](http://docs.sequelizejs.com/manual/tutorial/transactions.html)
 
 ## Installation
 
@@ -25,7 +25,7 @@ npm install --save cls-hooked typeorm
 In order to use it, you will first need to initialize the cls-hooked namesapce before your application is started
 
 ```typescript
-import { initializeTransactionalContext } from 'typeorm-trasactional-cls-hooked';
+import { initializeTransactionalContext } from 'typeorm-transactional-cls-hooked';
 
 initializeTransactionalContext() // Initialize cls-hooked
 ...
@@ -51,7 +51,7 @@ export class Post{
 
 // Post.repository.ts
 import { EntityRepository } from 'typeorm';
-import { BaseRepository } from 'typeorm-trasactional-cls-hooked';
+import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 
 @EntityRepository(Post)
 export class PostRepository extends BaseRepository<Post> {}
