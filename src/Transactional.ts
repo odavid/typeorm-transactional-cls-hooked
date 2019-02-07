@@ -1,10 +1,11 @@
 import { getNamespace } from 'cls-hooked'
-import { getManager } from 'typeorm'
+import { EntityManager, getManager } from 'typeorm'
 import {
   getEntityManagerForConnection,
   NAMESPACE_NAME,
   setEntityManagerForConnection,
 } from './common'
+import { IsolationLevel } from './IsolationLevel'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
 
@@ -12,18 +13,21 @@ import { TransactionalError } from './TransactionalError'
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
  * @param connectionName - the typeorm connection name. 'default' by default
  * @param propagation - The transaction propagation type. see {@link Propagation}
+ * @param isolationLevel - The transaction isolation level. see {@link IsolationLevel}
  */
 export function Transactional(options?: {
   connectionName?: string
   propagation?: Propagation
+  isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  const connectionName: string = options ? options.connectionName ? options.connectionName : 'default' : 'default'
-  const propagation: Propagation = options ? options.propagation ? options.propagation : Propagation.REQUIRED : Propagation.REQUIRED
+  const connectionName: string = options && options.connectionName ? options.connectionName : 'default'
+  const propagation: Propagation = options && options.propagation ? options.propagation : Propagation.REQUIRED
+  const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (...args: any[]) {
       const context = getNamespace(NAMESPACE_NAME)
       if (!context) {
         throw new Error(
@@ -32,13 +36,20 @@ export function Transactional(options?: {
       }
 
       const runOriginal = async () => originalMethod.apply(this, [...args])
-      const runWithNewTransaction = async () =>
-        getManager(connectionName).transaction(async entityManager => {
+      const runWithNewTransaction = async () => {
+        const transactionCallback = async (entityManager: EntityManager) => {
           setEntityManagerForConnection(connectionName, context, entityManager)
           const result = await originalMethod.apply(this, [...args])
           setEntityManagerForConnection(connectionName, context, null)
           return result
-        })
+        }
+
+        if (isolationLevel) {
+          return getManager(connectionName).transaction(isolationLevel, transactionCallback)
+        } else {
+          return getManager(connectionName).transaction(transactionCallback)
+        }
+      }
 
       return context.runAndReturn(async () => {
         const currentTransaction = getEntityManagerForConnection(connectionName, context)
