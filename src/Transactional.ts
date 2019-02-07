@@ -1,5 +1,5 @@
 import { getNamespace } from 'cls-hooked'
-import { EntityManager, getManager } from 'typeorm';
+import { EntityManager, getManager } from 'typeorm'
 import {
   getEntityManagerForConnection,
   NAMESPACE_NAME,
