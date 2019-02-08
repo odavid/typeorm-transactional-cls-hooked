@@ -96,3 +96,5 @@ The following isolation level options can be specified:
 - `READ_COMMITTED` - A constant indicating that dirty reads are prevented; non-repeatable reads and phantom reads can occur.
 - `REPEATABLE_READ` - A constant indicating that dirty reads and non-repeatable reads are prevented; phantom reads can occur.
 - `SERIALIZABLE` = A constant indicating that dirty reads, non-repeatable reads and phantom reads are prevented.
+
+**NOTE**: If a transaction already exist and a method is decorated with `@Transactional` and `propagation` *does not equal* to `REQUIRES_NEW`, then the declared `isolationLevel` value will *not* be taken into account.
