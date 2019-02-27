@@ -98,3 +98,30 @@ The following isolation level options can be specified:
 - `SERIALIZABLE` = A constant indicating that dirty reads, non-repeatable reads and phantom reads are prevented.
 
 **NOTE**: If a transaction already exist and a method is decorated with `@Transactional` and `propagation` *does not equal* to `REQUIRES_NEW`, then the declared `isolationLevel` value will *not* be taken into account.
+
+## Hooks
+
+Because you hand over control of the transaction creation to this library, there is no way for you to know whether or not the current transaction was sucessfully persisted to the database.
+
+To circumvent that, we expose three helper methods that allow you to hook into the transaction lifecycle and take appropriate action after a commit/rollback.
+
+- `runOnTransactionCommit(cb)` takes a callback to be executed after the current transaction was sucessfully committed
+- `runOnTransactionRollback(cb)` takes a callback to be executed after the current transaction rolls back. The callback gets the error that initiated the roolback as a parameter.
+- `runOnTransactionEnd(cb)` takes a callback to be executed at the end of the current transactional context. If there was an error, it gets passed as an argument.
+
+
+
+```typescript
+export class PostService {
+    constructor(readonly repository: PostRepsitory, readonly events EventService)
+
+        @Transactional()
+        async createPost(id, message): Promise<Post> {
+            const post = this.repository.create({ id, message })
+            const result = await this.repository.save(post)
+            runOnTransactionCommit(() => this.events.emit('post created'))
+            return result
+        }
+}
+```
+
