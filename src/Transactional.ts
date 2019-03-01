@@ -5,6 +5,7 @@ import {
   NAMESPACE_NAME,
   setEntityManagerForConnection,
 } from './common'
+import { runInNewHookContext } from './hook'
 import { IsolationLevel } from './IsolationLevel'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
@@ -36,6 +37,8 @@ export function Transactional(options?: {
       }
 
       const runOriginal = async () => originalMethod.apply(this, [...args])
+      const runWithNewHook = async () => runInNewHookContext(context, runOriginal)
+
       const runWithNewTransaction = async () => {
         const transactionCallback = async (entityManager: EntityManager) => {
           setEntityManagerForConnection(connectionName, context, entityManager)
@@ -45,9 +48,9 @@ export function Transactional(options?: {
         }
 
         if (isolationLevel) {
-          return getManager(connectionName).transaction(isolationLevel, transactionCallback)
+          return await runInNewHookContext(context, () => getManager(connectionName).transaction(isolationLevel, transactionCallback))
         } else {
-          return getManager(connectionName).transaction(transactionCallback)
+          return await runInNewHookContext(context, () => getManager(connectionName).transaction(transactionCallback))
         }
       }
 
@@ -70,11 +73,11 @@ export function Transactional(options?: {
                 "Found an existing transaction, transaction marked with propagation 'NEVER'"
               )
             }
-            return runOriginal()
+            return runWithNewHook()
           case Propagation.NOT_SUPPORTED:
             if (currentTransaction) {
               setEntityManagerForConnection(connectionName, context, null)
-              const result = await runOriginal()
+              const result = await runWithNewHook()
               setEntityManagerForConnection(connectionName, context, currentTransaction)
               return result
             }
@@ -87,7 +90,11 @@ export function Transactional(options?: {
           case Propagation.REQUIRES_NEW:
             return runWithNewTransaction()
           case Propagation.SUPPORTS:
-            return runOriginal()
+            if (currentTransaction) {
+              return runOriginal()
+            } else {
+              return runWithNewHook()
+            }
         }
         if (currentTransaction) {
           return runOriginal()
