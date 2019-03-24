@@ -1,10 +1,7 @@
-import { getNamespace } from 'cls-hooked'
-import { EntityManager, getManager, ObjectLiteral, Repository } from 'typeorm'
-import { getEntityManagerForConnection, NAMESPACE_NAME } from './common'
+import { EntityManager, ObjectLiteral, Repository } from 'typeorm'
+import { getEntityManagerOrTransactionManager } from './common'
 
-export class BaseRepository<Entity extends ObjectLiteral> extends Repository<
-  Entity
-> {
+export class BaseRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
   private _connectionName: string = 'default'
   private _manager: EntityManager | undefined
 
@@ -14,22 +11,6 @@ export class BaseRepository<Entity extends ObjectLiteral> extends Repository<
   }
 
   get manager(): EntityManager {
-    return this.getManagerOrTransactionManager()
-  }
-
-  private getManagerOrTransactionManager(): EntityManager {
-    const context = getNamespace(NAMESPACE_NAME)
-
-    if (context && context.active) {
-      const transactionalEntityManager = getEntityManagerForConnection(
-        this._connectionName,
-        context
-      )
-
-      if (transactionalEntityManager) {
-        return transactionalEntityManager
-      }
-    }
-    return this._manager || getManager(this._connectionName)
+    return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
   }
 }

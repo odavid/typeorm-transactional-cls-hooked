@@ -1,5 +1,5 @@
 export { BaseRepository } from './BaseRepository'
-export { initializeTransactionalContext } from './common'
+export { initializeTransactionalContext, getEntityManagerOrTransactionManager } from './common'
 export { runOnTransactionCommit, runOnTransactionComplete, runOnTransactionRollback } from './hook'
 export { Propagation } from './Propagation'
 export { IsolationLevel } from './IsolationLevel'

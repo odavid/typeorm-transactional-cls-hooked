@@ -59,6 +59,29 @@ import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 export class PostRepository extends BaseRepository<Post> {}
 ```
 
+The only purpose of the `BaseRepository` class is to make sure the `manager` property of the repository will always be the right one. In cases inheritance is not possible, you can always use the same code from `BaseRepository` within your own repository code.
+
+```typescript
+import { getEntityManagerOrTransactionManager } from 'typeorm-transactional-cls-hooked';
+
+class MyRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
+  private _connectionName: string = 'default'
+  private _manager: EntityManager | undefined
+
+  set manager(manager: EntityManager) {
+    this._manager = manager
+    this._connectionName = manager.connection.name
+  }
+
+  // Always get the entityManager from the cls namespace if active, otherwise, use the original or getManager(connectionName)
+  get manager(): EntityManager {
+    return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
+  }
+}
+```
+
+
+
 ## Using Transactional Decorator
 
 - Every service method that needs to be transactional, need to use the `@Transactional()` decorator
