@@ -80,6 +80,21 @@ class MyRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
 }
 ```
 
+### Patching TypeORM Repository with BaseRepository
+Sometimes there is a need to keep using the [TypeORM Repository](https://github.com/typeorm/typeorm/blob/master/src/repository/Repository.ts) instead of using the `BaseRepository`.
+For this cases, you will need to *"mixin/patch"* the original `Repository` with the `BaseRepository`.
+By doing so, you will be able to use the original `Repository` and not change the code or use `BaseRepository`.
+> This method was taken from https://gist.github.com/Diluka/87efbd9169cae96a012a43d1e5695667 (Thanks @Diluka)
+
+In order to do that, the following should be done during initialization:
+
+```typescript
+import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
+
+initializeTransactionalContext() // Initialize cls-hooked
+patchTypeORMRepositoryWithBaseRepository() // patch Repository with BaseRepository.
+```
+
 
 
 ## Using Transactional Decorator
