@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 export { BaseRepository } from './BaseRepository'
 export { initializeTransactionalContext } from './common'
 export { runOnTransactionCommit, runOnTransactionComplete, runOnTransactionRollback } from './hook'
