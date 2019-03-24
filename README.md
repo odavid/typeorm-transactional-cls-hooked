@@ -9,7 +9,7 @@ Inspired by [Spring Transactional](https://docs.spring.io/spring-framework/docs/
 ```shell
 yarn add typeorm-transactional-cls-hooked
 ## Needed dependencies
-yarn add cls-hooked typeorm
+yarn add cls-hooked typeorm reflect-metadata
 ```
 
 Or
@@ -17,8 +17,10 @@ Or
 ```shell
 npm install --save typeorm-transactional-cls-hooked
 ## Needed dependencies
-npm install --save cls-hooked typeorm
+npm install --save cls-hooked typeorm reflect-metadata
 ```
+
+> **Note**: You will need to import `reflect-metadata` somewhere in the global place of your app - https://github.com/typeorm/typeorm#installation
 
 ## Initialization
 
