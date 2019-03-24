@@ -4,6 +4,8 @@ A `Transactional` Method Decorator for [typeorm](http://typeorm.io/) that uses [
 
 Inspired by [Spring Transactional](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html) Annotation and [Sequelize CLS](http://docs.sequelizejs.com/manual/tutorial/transactions.html)
 
+See [Changelog](CHANGELOG.md)
+
 ## Installation
 
 ```shell
