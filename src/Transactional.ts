@@ -102,5 +102,7 @@ export function Transactional(options?: {
         return runWithNewTransaction()
       })
     }
+    
+    Object.defineProperty(descriptor.value, 'name', {value: originalMethod.name, writable: false});
   }
 }
