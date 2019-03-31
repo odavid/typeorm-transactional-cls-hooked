@@ -11,7 +11,7 @@ See [Changelog](CHANGELOG.md)
 ```shell
 yarn add typeorm-transactional-cls-hooked
 ## Needed dependencies
-yarn add cls-hooked typeorm reflect-metadata
+yarn add typeorm reflect-metadata
 ```
 
 Or
@@ -19,7 +19,7 @@ Or
 ```shell
 npm install --save typeorm-transactional-cls-hooked
 ## Needed dependencies
-npm install --save cls-hooked typeorm reflect-metadata
+npm install --save typeorm reflect-metadata
 ```
 
 > **Note**: You will need to import `reflect-metadata` somewhere in the global place of your app - https://github.com/typeorm/typeorm#installation
