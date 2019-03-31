@@ -32,10 +32,12 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "dependencies": {
+    "cls-hooked": "^4.2.2"
+  },
   "devDependencies": {
     "@types/cls-hooked": "^4.2.1",
     "@types/jest": "^23.3.2",
-    "cls-hooked": "^4.2.2",
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
     "ts-node": "^7.0.1",
@@ -46,9 +48,7 @@
     "typescript": "^3.0.3"
   },
   "peerDependencies": {
-    "cls-hooked": ">= 4.2.2",
     "reflect-metadata": ">= 0.1.12",
     "typeorm": ">= 0.2.8"
   }
 }
-
