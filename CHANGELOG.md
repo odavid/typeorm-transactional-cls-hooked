@@ -1,5 +1,5 @@
 
-## 0.1.6 (Not released yet)
+## 0.1.6
 * cls-hooked should be a dependency [#17](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/17)
 
 ## 0.1.5
