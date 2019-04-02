@@ -1,5 +1,6 @@
 # typeorm-transactional-cls-hooked
-[![npm version](https://badge.fury.io/js/typeorm-transactional-cls-hooked.svg)](https://badge.fury.io/js/typeorm-transactional-cls-hooked)
+[![npm version](http://img.shields.io/npm/v/typeorm-transactional-cls-hooked.svg?style=flat)](https://npmjs.org/package/typeorm-transactional-cls-hooked "View this project on npm")
+
 
 A `Transactional` Method Decorator for [typeorm](http://typeorm.io/) that uses [cls-hooked](https://www.npmjs.com/package/cls-hooked) to handle and propagate transactions between different repositories and service methods.
 
