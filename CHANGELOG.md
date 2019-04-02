@@ -1,5 +1,8 @@
 
 ## 0.1.6
+* Added types declaration in package.json [#20](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/20)
+
+## 0.1.6
 * cls-hooked should be a dependency [#17](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/17)
 
 ## 0.1.5
