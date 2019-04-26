@@ -102,5 +102,12 @@ export function Transactional(options?: {
         return runWithNewTransaction()
       })
     }
+
+    Reflect.getMetadataKeys(originalMethod).forEach((previousMetadataKey) => {
+      const previousMetadata = Reflect.getMetadata(previousMetadataKey, originalMethod);
+      Reflect.defineMetadata(previousMetadataKey, previousMetadata, descriptor.value);
+    });
+    
+    Object.defineProperty(descriptor.value, 'name', {value: originalMethod.name, writable: false});
   }
 }
