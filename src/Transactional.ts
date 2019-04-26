@@ -21,14 +21,16 @@ export function Transactional(options?: {
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  const connectionName: string = options && options.connectionName ? options.connectionName : 'default'
-  const propagation: Propagation = options && options.propagation ? options.propagation : Propagation.REQUIRED
+  const connectionName: string =
+    options && options.connectionName ? options.connectionName : 'default'
+  const propagation: Propagation =
+    options && options.propagation ? options.propagation : Propagation.REQUIRED
   const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function(...args: any[]) {
       const context = getNamespace(NAMESPACE_NAME)
       if (!context) {
         throw new Error(
@@ -48,9 +50,13 @@ export function Transactional(options?: {
         }
 
         if (isolationLevel) {
-          return await runInNewHookContext(context, () => getManager(connectionName).transaction(isolationLevel, transactionCallback))
+          return await runInNewHookContext(context, () =>
+            getManager(connectionName).transaction(isolationLevel, transactionCallback)
+          )
         } else {
-          return await runInNewHookContext(context, () => getManager(connectionName).transaction(transactionCallback))
+          return await runInNewHookContext(context, () =>
+            getManager(connectionName).transaction(transactionCallback)
+          )
         }
       }
 
@@ -103,11 +109,11 @@ export function Transactional(options?: {
       })
     }
 
-    Reflect.getMetadataKeys(originalMethod).forEach((previousMetadataKey) => {
-      const previousMetadata = Reflect.getMetadata(previousMetadataKey, originalMethod);
-      Reflect.defineMetadata(previousMetadataKey, previousMetadata, descriptor.value);
-    });
-    
-    Object.defineProperty(descriptor.value, 'name', {value: originalMethod.name, writable: false});
+    Reflect.getMetadataKeys(originalMethod).forEach(previousMetadataKey => {
+      const previousMetadata = Reflect.getMetadata(previousMetadataKey, originalMethod)
+      Reflect.defineMetadata(previousMetadataKey, previousMetadata, descriptor.value)
+    })
+
+    Object.defineProperty(descriptor.value, 'name', { value: originalMethod.name, writable: false })
   }
 }

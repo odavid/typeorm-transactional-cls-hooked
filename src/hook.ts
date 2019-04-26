@@ -11,11 +11,12 @@ export const getTransactionalContextHook = () => {
   return emitter
 }
 
-export const createEmitterInNewContext = (context: Namespace) => context.runAndReturn((_subctx) => {
-  const emitter = new EventEmitter()
-  context.bindEmitter(emitter)
-  return emitter
-})
+export const createEmitterInNewContext = (context: Namespace) =>
+  context.runAndReturn(_subctx => {
+    const emitter = new EventEmitter()
+    context.bindEmitter(emitter)
+    return emitter
+  })
 
 export const runAndTriggerHooks = async (hook: EventEmitter, cb: () => any) => {
   try {
