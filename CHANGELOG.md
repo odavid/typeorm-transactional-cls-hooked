@@ -1,5 +1,7 @@
+## 0.1.8
+* Preserve method name on @Transactional method overwrite [#16](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/16)
 
-## 0.1.6
+## 0.1.7
 * Added types declaration in package.json [#20](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/20)
 
 ## 0.1.6
