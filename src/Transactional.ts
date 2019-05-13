@@ -1,7 +1,5 @@
 import { getNamespace } from 'cls-hooked'
-import Container from 'typedi'
-import { ContainerInstance } from 'typedi'
-import { ConnectionManager, EntityManager, getManager } from 'typeorm'
+import { ConnectionManager, ContainerInterface, EntityManager, getFromContainer, getManager } from 'typeorm'
 
 import {
   NAMESPACE_NAME,
@@ -31,10 +29,10 @@ export function Transactional(options?: {
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
-    descriptor.value = function(this: { container?: ContainerInstance }, ...args: any[]) {
+    descriptor.value = function (this: { container?: ContainerInterface }, ...args: any[]) {
       const context = getNamespace(NAMESPACE_NAME)
-      const container = this.container || Container.of(undefined)
-      
+      const container = this.container || { get: getFromContainer }
+
       if (!context) {
         throw new Error(
           'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
