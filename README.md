@@ -41,7 +41,7 @@ app = express()
 
 ## BaseRepository
 
-Since this is an external library, all your typeorm repositories will need to be a [custom repository](https://github.com/typeorm/typeorm/blob/master/docs/custom-repository.md) extending the `BaseRepository` class.
+Since this is an external library, all your typeorm repositories will need to be a [custom repository](https://github.com/typeorm/typeorm/blob/master/docs/custom-repository.md) extending either the `BaseRepository` (when using TypeORM's [`Entity`](https://github.com/typeorm/typeorm/blob/master/docs/entities.md)) or the `BaseTreeRepository` class (when using TypeORM's [`TreeEntity`](https://github.com/typeorm/typeorm/blob/master/docs/tree-entities.md)).
 
 ```typescript
 // Post.entity.ts
@@ -63,7 +63,7 @@ import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 export class PostRepository extends BaseRepository<Post> {}
 ```
 
-The only purpose of the `BaseRepository` class is to make sure the `manager` property of the repository will always be the right one. In cases inheritance is not possible, you can always use the same code from `BaseRepository` within your own repository code.
+The only purpose of the `BaseRepository` class is to make sure the `manager` property of the repository will always be the right one. In cases where inheritance is not possible, you can always use the same code from `BaseRepository` within your own repository code.
 
 ```typescript
 import { getEntityManagerOrTransactionManager } from 'typeorm-transactional-cls-hooked';
@@ -98,6 +98,8 @@ import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepositor
 initializeTransactionalContext() // Initialize cls-hooked
 patchTypeORMRepositoryWithBaseRepository() // patch Repository with BaseRepository.
 ```
+
+If there is a need to keep using the TypeORM [`TreeRepository`](https://github.com/typeorm/typeorm/blob/master/docs/tree-entities.md#working-with-tree-entities) instead of using `BaseTreeRepository`, use `patchTypeORMTreeRepositoryWithBaseTreeRepository`.
 
 
 
