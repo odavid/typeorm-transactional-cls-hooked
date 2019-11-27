@@ -1,3 +1,6 @@
+## 0.1.9
+* feat: adds BaseTreeRepository [#32](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/32)
+
 ## 0.1.8
 * Preserve method name on @Transactional method overwrite [#16](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/16)
 
