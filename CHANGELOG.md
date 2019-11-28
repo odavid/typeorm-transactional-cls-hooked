@@ -1,4 +1,7 @@
-## 0.1.9
+## 0.1.10
+* dist folder missing in package version 0.1.9 [#33](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/33)
+
+## 0.1.9 (Use 0.1.10 instead)
 * feat: adds BaseTreeRepository [#32](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/32)
 
 ## 0.1.8
