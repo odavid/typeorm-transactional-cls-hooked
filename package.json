@@ -34,10 +34,10 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
+    "@types/cls-hooked": "^4.2.1",
     "cls-hooked": "^4.2.2"
   },
   "devDependencies": {
-    "@types/cls-hooked": "^4.2.1",
     "@types/jest": "^23.3.2",
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
