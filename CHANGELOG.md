@@ -1,3 +1,6 @@
+## 0.1.11
+* Move @types/cls-hooked to dependencies [#42](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/42)
+
 ## 0.1.10
 * dist folder missing in package version 0.1.9 [#33](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/33)
 
