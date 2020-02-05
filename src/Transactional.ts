@@ -1,8 +1,9 @@
 import { getNamespace } from 'cls-hooked'
-import { EntityManager, getManager } from 'typeorm'
+import { ConnectionManager, ContainerInterface, EntityManager, getFromContainer, getManager } from 'typeorm'
+
 import {
-  getEntityManagerForConnection,
   NAMESPACE_NAME,
+  getEntityManagerForConnection,
   setEntityManagerForConnection,
 } from './common'
 import { runInNewHookContext } from './hook'
@@ -21,17 +22,17 @@ export function Transactional(options?: {
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  const connectionName: string =
-    options && options.connectionName ? options.connectionName : 'default'
-  const propagation: Propagation =
-    options && options.propagation ? options.propagation : Propagation.REQUIRED
+  const connectionName: string = options && options.connectionName ? options.connectionName : 'default' // prettier-ignore
+  const propagation: Propagation = options && options.propagation ? options.propagation : Propagation.REQUIRED // prettier-ignore
   const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
 
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (this: { container?: ContainerInterface }, ...args: any[]) {
       const context = getNamespace(NAMESPACE_NAME)
+      const container = this.container || { get: getFromContainer }
+
       if (!context) {
         throw new Error(
           'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
@@ -49,13 +50,19 @@ export function Transactional(options?: {
           return result
         }
 
+        const connectionManager = container.get(ConnectionManager)
+
+        const connection = connectionManager
+          ? connectionManager.get(connectionName)
+          : getManager(connectionName)
+
         if (isolationLevel) {
           return await runInNewHookContext(context, () =>
-            getManager(connectionName).transaction(isolationLevel, transactionCallback)
+            connection.transaction(isolationLevel, transactionCallback)
           )
         } else {
           return await runInNewHookContext(context, () =>
-            getManager(connectionName).transaction(transactionCallback)
+            connection.transaction(transactionCallback)
           )
         }
       }
