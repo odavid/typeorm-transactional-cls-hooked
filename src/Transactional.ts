@@ -10,7 +10,7 @@ import { IsolationLevel } from './IsolationLevel'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
 
-type StringFunction = () => string
+type StringFunction = () => string | undefined
 
 /**
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
@@ -25,7 +25,7 @@ export function Transactional(options?: {
 }): MethodDecorator {
   let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
   if (typeof tempConnectionName !== 'string') {
-    tempConnectionName = tempConnectionName()
+    tempConnectionName = tempConnectionName() || 'default'
   }
   const connectionName: string = tempConnectionName
   const propagation: Propagation =
