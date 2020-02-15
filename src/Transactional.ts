@@ -10,6 +10,8 @@ import { IsolationLevel } from './IsolationLevel'
 import { Propagation } from './Propagation'
 import { TransactionalError } from './TransactionalError'
 
+type StringFunction = () => string
+
 /**
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
  * @param connectionName - the typeorm connection name. 'default' by default
@@ -17,12 +19,14 @@ import { TransactionalError } from './TransactionalError'
  * @param isolationLevel - The transaction isolation level. see {@link IsolationLevel}
  */
 export function Transactional(options?: {
-  connectionName?: string
+  connectionName?: string | StringFunction
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  const connectionName: string =
-    options && options.connectionName ? options.connectionName : 'default'
+  let connectionName = options && options.connectionName ? options.connectionName : 'default'
+  if (typeof connectionName !== 'string') {
+    connectionName = connectionName()
+  }
   const propagation: Propagation =
     options && options.propagation ? options.propagation : Propagation.REQUIRED
   const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
