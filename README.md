@@ -107,6 +107,7 @@ If there is a need to keep using the TypeORM [`TreeRepository`](https://github.c
 
 - Every service method that needs to be transactional, need to use the `@Transactional()` decorator
 - The decorator can take a `connectionName` as argument (by default it is `default`)
+  - In some cases, where the connectionName should be dynamically evaluated, the value of connectionName can be a function that returns a string.
 - The decorator can take an optional `propagation` as argument to define the [propagation behaviour](#transaction-propagation)
 - The decorator can take an optional `isolationLevel` as argument to define the [isolation level](#isolation-levels) (by default it will use your database driver's default isolation level.)
 

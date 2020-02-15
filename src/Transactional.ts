@@ -17,15 +17,10 @@ import { TransactionalError } from './TransactionalError'
  * @param isolationLevel - The transaction isolation level. see {@link IsolationLevel}
  */
 export function Transactional(options?: {
-  connectionName?: string
+  connectionName?: string | (() => string | undefined)
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  const connectionName: string =
-    options && options.connectionName ? options.connectionName : 'default'
-  const propagation: Propagation =
-    options && options.propagation ? options.propagation : Propagation.REQUIRED
-  const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
@@ -37,6 +32,14 @@ export function Transactional(options?: {
           'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
         )
       }
+      let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
+      if (typeof tempConnectionName !== 'string') {
+        tempConnectionName = tempConnectionName() || 'default'
+      }
+          const connectionName: string = tempConnectionName
+      const propagation: Propagation =
+        options && options.propagation ? options.propagation : Propagation.REQUIRED
+      const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
       const runOriginal = async () => originalMethod.apply(this, [...args])
       const runWithNewHook = async () => runInNewHookContext(context, runOriginal)
