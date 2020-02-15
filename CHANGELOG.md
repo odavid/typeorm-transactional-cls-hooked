@@ -1,3 +1,6 @@
+## 0.1.12
+* Using connectionName as string | ()=>string [#44](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/44)
+
 ## 0.1.11
 * Move @types/cls-hooked to dependencies [#42](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/42)
 
