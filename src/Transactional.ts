@@ -23,14 +23,6 @@ export function Transactional(options?: {
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-  let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
-  if (typeof tempConnectionName !== 'string') {
-    tempConnectionName = tempConnectionName() || 'default'
-  }
-  const connectionName: string = tempConnectionName
-  const propagation: Propagation =
-    options && options.propagation ? options.propagation : Propagation.REQUIRED
-  const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
@@ -42,6 +34,14 @@ export function Transactional(options?: {
           'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
         )
       }
+      let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
+      if (typeof tempConnectionName !== 'string') {
+        tempConnectionName = tempConnectionName() || 'default'
+      }
+          const connectionName: string = tempConnectionName
+      const propagation: Propagation =
+        options && options.propagation ? options.propagation : Propagation.REQUIRED
+      const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
 
       const runOriginal = async () => originalMethod.apply(this, [...args])
       const runWithNewHook = async () => runInNewHookContext(context, runOriginal)
