@@ -11,7 +11,7 @@
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/odavid/typeorm-transactional-cls-hooked"
   },
   "tags": [
     "typescript",
