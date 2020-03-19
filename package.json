@@ -38,7 +38,7 @@
     "cls-hooked": "^4.2.2"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.2",
+    "@types/jest": "^25.1.4",
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
     "ts-node": "^8.7.0",
