@@ -154,7 +154,7 @@ To circumvent that, we expose three helper methods that allow you to hook into t
 
 - `runOnTransactionCommit(cb)` takes a callback to be executed after the current transaction was sucessfully committed
 - `runOnTransactionRollback(cb)` takes a callback to be executed after the current transaction rolls back. The callback gets the error that initiated the roolback as a parameter.
-- `runOnTransactionEnd(cb)` takes a callback to be executed at the end of the current transactional context. If there was an error, it gets passed as an argument.
+- `runOnTransactionComplete(cb)` takes a callback to be executed at the completion of the current transactional context. If there was an error, it gets passed as an argument.
 
 
 
