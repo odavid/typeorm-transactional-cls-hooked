@@ -160,15 +160,15 @@ To circumvent that, we expose three helper methods that allow you to hook into t
 
 ```typescript
 export class PostService {
-    constructor(readonly repository: PostRepsitory, readonly events EventService)
+    constructor(readonly repository: PostRepsitory, readonly events EventService) {}
 
-        @Transactional()
-        async createPost(id, message): Promise<Post> {
-            const post = this.repository.create({ id, message })
-            const result = await this.repository.save(post)
-            runOnTransactionCommit(() => this.events.emit('post created'))
-            return result
-        }
+    @Transactional()
+    async createPost(id, message): Promise<Post> {
+        const post = this.repository.create({ id, message })
+        const result = await this.repository.save(post)
+        runOnTransactionCommit(() => this.events.emit('post created'))
+        return result
+    }
 }
 ```
 
