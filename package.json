@@ -28,7 +28,8 @@
     "lint": "tslint -p tsconfig.json -c tslint.json ./src/**/*.ts",
     "clean": "rm -rf ./dist",
     "build": "yarn clean && tsc",
-    "typedoc": "typedoc --out ./docs src/**.ts"
+    "typedoc": "typedoc --out ./docs src/**.ts",
+    "test": "jest"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -38,9 +39,11 @@
     "cls-hooked": "^4.2.2"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.3",
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
+    "ts-jest": "^26.4.4",
     "ts-node": "^8.7.0",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.15.0",
