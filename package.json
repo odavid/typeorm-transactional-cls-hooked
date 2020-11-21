@@ -28,7 +28,10 @@
     "lint": "tslint -p tsconfig.json -c tslint.json ./src/**/*.ts",
     "clean": "rm -rf ./dist",
     "build": "yarn clean && tsc",
-    "typedoc": "typedoc --out ./docs src/**.ts"
+    "typedoc": "typedoc --out ./docs src/**.ts",
+    "setup-test-db": "docker-compose -f tests/docker-compose.yaml up -d && sleep 3",
+    "teardown-test-db": "docker-compose -f tests/docker-compose.yaml down --remove-orphans -v",
+    "test": "yarn setup-test-db && jest"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -38,14 +41,17 @@
     "cls-hooked": "^4.2.2"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.3",
+    "pg": "^8.5.1",
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
+    "ts-jest": "^26.4.4",
     "ts-node": "^8.7.0",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.15.0",
     "typedoc": "^0.17.1",
-    "typeorm": "^0.2.8",
+    "typeorm": "^0.2.29",
     "typescript": "^3.0.3"
   },
   "peerDependencies": {
