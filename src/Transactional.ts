@@ -47,9 +47,14 @@ export function Transactional(options?: {
       const runWithNewTransaction = async () => {
         const transactionCallback = async (entityManager: EntityManager) => {
           setEntityManagerForConnection(connectionName, context, entityManager)
-          const result = await originalMethod.apply(this, [...args])
-          setEntityManagerForConnection(connectionName, context, null)
-          return result
+          try {
+            const result = await originalMethod.apply(this, [...args])
+            return result
+          } catch (e) {
+            throw e
+          } finally {
+            setEntityManagerForConnection(connectionName, context, null)
+          }
         }
 
         if (isolationLevel) {
