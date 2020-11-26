@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EntityManager, ObjectLiteral, Repository } from 'typeorm'
 import { getEntityManagerOrTransactionManager } from './common'
 
