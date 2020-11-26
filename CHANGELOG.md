@@ -1,4 +1,4 @@
-## 0.1.13 (Not released yet)
+## 0.1.13
 * Fix partial rollback issue [#61](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/61)
 * Using github actions for CI
 * Using npm instead of yarn during development
