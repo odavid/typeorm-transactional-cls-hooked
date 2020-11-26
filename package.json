@@ -27,11 +27,11 @@
   "scripts": {
     "lint": "tslint -p tsconfig.json -c tslint.json ./src/**/*.ts",
     "clean": "rm -rf ./dist",
-    "build": "yarn clean && tsc",
+    "build": "npm run clean && tsc",
     "typedoc": "typedoc --out ./docs src/**.ts",
     "setup-test-db": "docker-compose -f tests/docker-compose.yaml up -d && sleep 3",
     "teardown-test-db": "docker-compose -f tests/docker-compose.yaml down --remove-orphans -v",
-    "test": "yarn setup-test-db && jest"
+    "test": "npm run setup-test-db && jest"
   },
   "engines": {
     "node": ">=8.0.0"
