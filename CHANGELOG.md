@@ -1,3 +1,9 @@
+## 0.1.13 (Not released yet)
+* Fix partial rollback issue [#61](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/61)
+* Using github actions for CI
+* Using npm instead of yarn during development
+* Simple tests
+
 ## 0.1.12
 * Using connectionName as string | ()=>string [#44](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/44)
 
