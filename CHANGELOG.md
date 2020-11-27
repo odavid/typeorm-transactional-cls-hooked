@@ -1,3 +1,6 @@
+## 0.1.16
+* Re-patch MongoRepisotry manager property to be configurable/writable [#68](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/68)
+
 ## 0.1.15
 * Patching mongo repository [#67](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/67)
 
