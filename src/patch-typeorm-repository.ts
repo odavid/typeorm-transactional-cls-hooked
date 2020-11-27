@@ -15,7 +15,9 @@ export const patchRepositoryManager = (repositoryType: any) => {
 
 export const patchTypeORMRepositoryWithBaseRepository = () => {
   patchRepositoryManager(Repository.prototype)
-  patchRepositoryManager(MongoRepository.prototype)
+  // Since MongoRepository inherits from Repository, but does declare the manager, we re-patch it
+  // See #64 and #65
+  Object.defineProperty(MongoRepository.prototype, 'manager', { configurable: true, writable: true });
 }
 
 export const patchTypeORMTreeRepositoryWithBaseTreeRepository = () => {
