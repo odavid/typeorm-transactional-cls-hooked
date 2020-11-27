@@ -5,6 +5,7 @@ export { runOnTransactionCommit, runOnTransactionComplete, runOnTransactionRollb
 export {
   patchTypeORMRepositoryWithBaseRepository,
   patchTypeORMTreeRepositoryWithBaseTreeRepository,
+  patchRepositoryManager,
 } from './patch-typeorm-repository'
 export { Propagation } from './Propagation'
 export { IsolationLevel } from './IsolationLevel'

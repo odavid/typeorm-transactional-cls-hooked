@@ -13,10 +13,10 @@ export const initializeTransactionalContext = () =>
 export const getEntityManagerOrTransactionManager = (
   connectionName: string,
   entityManager: EntityManager | undefined
-): EntityManager | undefined => {
+): EntityManager => {
   const context = getNamespace(NAMESPACE_NAME)
 
-  if (context && context.active) { 
+  if (context && context.active) {
     return getEntityManagerForConnection(connectionName, context)
   }
   return entityManager || getManager(connectionName)

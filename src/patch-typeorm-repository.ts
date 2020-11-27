@@ -1,7 +1,4 @@
-import { EntityManager, Repository, TreeRepository } from 'typeorm'
-import { BaseRepository } from './BaseRepository'
-import { BaseTreeRepository } from './BaseTreeRepository'
-
+import { EntityManager, Repository, TreeRepository, MongoRepository } from 'typeorm'
 import { getEntityManagerOrTransactionManager } from './common'
 
 export const patchRepositoryManager = (repositoryType: any) => {
@@ -18,6 +15,7 @@ export const patchRepositoryManager = (repositoryType: any) => {
 
 export const patchTypeORMRepositoryWithBaseRepository = () => {
   patchRepositoryManager(Repository.prototype)
+  patchRepositoryManager(MongoRepository.prototype)
 }
 
 export const patchTypeORMTreeRepositoryWithBaseTreeRepository = () => {
