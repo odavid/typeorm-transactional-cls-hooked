@@ -1,4 +1,4 @@
-## 0.1.14
+## 0.1.15
 * Patching mongo repository [#67](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/67)
 
 ## 0.1.14
