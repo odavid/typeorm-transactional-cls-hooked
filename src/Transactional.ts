@@ -24,7 +24,6 @@ export function Transactional(options?: {
 
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
-
     descriptor.value = function(...args: any[]) {
       const context = getNamespace(NAMESPACE_NAME)
       if (!context) {
