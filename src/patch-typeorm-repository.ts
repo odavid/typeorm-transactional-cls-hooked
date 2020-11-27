@@ -8,7 +8,9 @@ export const patchTypeORMRepositoryWithBaseRepository = () => {
       BaseRepository.prototype,
       pName
     ) as PropertyDescriptor)
-  )
+  );
+  
+  Object.defineProperty(MongoRepository.prototype, 'manager', { configurable: true, writable: true });
 }
 
 export const patchTypeORMTreeRepositoryWithBaseTreeRepository = () => {
