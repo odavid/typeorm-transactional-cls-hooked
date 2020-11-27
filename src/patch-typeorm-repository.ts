@@ -1,21 +1,25 @@
-import { Repository, TreeRepository } from 'typeorm'
+import { EntityManager, Repository, TreeRepository } from 'typeorm'
 import { BaseRepository } from './BaseRepository'
 import { BaseTreeRepository } from './BaseTreeRepository'
 
+import { getEntityManagerOrTransactionManager } from './common'
+
+export const patchRepositoryManager = (repositoryType: any) => {
+  Object.defineProperty(repositoryType, "manager", {
+    get(){
+      return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
+    },
+    set(manager: EntityManager | undefined){
+      this._manager = manager
+      this._connectionName = manager?.connection?.name
+    }
+  })
+}
+
 export const patchTypeORMRepositoryWithBaseRepository = () => {
-  Object.getOwnPropertyNames(BaseRepository.prototype).forEach(pName =>
-    Object.defineProperty(Repository.prototype, pName, Object.getOwnPropertyDescriptor(
-      BaseRepository.prototype,
-      pName
-    ) as PropertyDescriptor)
-  )
+  patchRepositoryManager(Repository.prototype)
 }
 
 export const patchTypeORMTreeRepositoryWithBaseTreeRepository = () => {
-  Object.getOwnPropertyNames(BaseTreeRepository.prototype).forEach(pName =>
-    Object.defineProperty(TreeRepository.prototype, pName, Object.getOwnPropertyDescriptor(
-      BaseTreeRepository.prototype,
-      pName
-    ) as PropertyDescriptor)
-  )
+  patchRepositoryManager(TreeRepository.prototype)
 }
