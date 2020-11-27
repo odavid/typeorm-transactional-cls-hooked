@@ -1,3 +1,7 @@
+## 0.1.14
+* Using patchRepositoryManager instead of overriding the manager() [#66](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/66)
+
+
 ## 0.1.13
 * Fix partial rollback issue [#61](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/61)
 * Using github actions for CI
