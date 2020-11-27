@@ -1,4 +1,7 @@
 ## 0.1.14
+* Patching mongo repository [#67](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/67)
+
+## 0.1.14
 * Using patchRepositoryManager instead of overriding the manager() [#66](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/66)
 
 
