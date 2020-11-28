@@ -87,7 +87,7 @@ If there is a need to keep using the TypeORM [`TreeRepository`](https://github.c
 ---
 **IMPORTANT NOTE**
 
-Calling [initializeTransactionalContext](#initialization) and [patchTypeORMRepositoryWithBaseRepository](#patching-typeorm-repository) must happend BEFORE any application context is initialized!
+Calling [initializeTransactionalContext](#initialization) and [patchTypeORMRepositoryWithBaseRepository](#patching-typeorm-repository) must happen BEFORE any application context is initialized!
 
 ---
 
