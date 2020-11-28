@@ -51,7 +51,6 @@
     "prettier": "^1.14.3",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.6.3",
-    "rxjs-compat": "^6.6.3",
     "ts-jest": "^26.4.4",
     "ts-node": "^8.7.0",
     "tslint": "^6.1.0",
