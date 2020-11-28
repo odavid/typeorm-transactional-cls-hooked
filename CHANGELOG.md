@@ -1,3 +1,6 @@
+## 0.1.17
+* Added Transactional Debug Logs - Using Typeorm connection logger [#69](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/69)
+
 ## 0.1.16
 * Re-patch MongoRepisotry manager property to be configurable/writable [#68](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/68)
 
