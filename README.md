@@ -11,17 +11,17 @@ See [Changelog](CHANGELOG.md)
 ## Installation
 
 ```shell
-yarn add typeorm-transactional-cls-hooked
+npm install --save typeorm-transactional-cls-hooked
 ## Needed dependencies
-yarn add typeorm reflect-metadata
+npm install --save typeorm reflect-metadata
 ```
 
 Or
 
 ```shell
-npm install --save typeorm-transactional-cls-hooked
+yarn add typeorm-transactional-cls-hooked
 ## Needed dependencies
-npm install --save typeorm reflect-metadata
+yarn add typeorm reflect-metadata
 ```
 
 > **Note**: You will need to import `reflect-metadata` somewhere in the global place of your app - https://github.com/typeorm/typeorm#installation
@@ -63,28 +63,10 @@ import { BaseRepository } from 'typeorm-transactional-cls-hooked';
 export class PostRepository extends BaseRepository<Post> {}
 ```
 
-The only purpose of the `BaseRepository` class is to make sure the `manager` property of the repository will always be the right one. In cases where inheritance is not possible, you can always use the same code from `BaseRepository` within your own repository code.
+The only purpose of the `BaseRepository` class is to make sure the `manager` property of the repository will always be the right one. In cases where inheritance is not possible, you can always [Patch the Repository/TreeRepository](#patching-typeorm-repository) to enable the same functionality as the `BaseRepository`
 
-```typescript
-import { getEntityManagerOrTransactionManager } from 'typeorm-transactional-cls-hooked';
 
-class MyRepository<Entity extends ObjectLiteral> extends Repository<Entity> {
-  private _connectionName: string = 'default'
-  private _manager: EntityManager | undefined
-
-  set manager(manager: EntityManager) {
-    this._manager = manager
-    this._connectionName = manager.connection.name
-  }
-
-  // Always get the entityManager from the cls namespace if active, otherwise, use the original or getManager(connectionName)
-  get manager(): EntityManager {
-    return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
-  }
-}
-```
-
-### Patching TypeORM Repository with BaseRepository
+### Patching TypeORM Repository
 Sometimes there is a need to keep using the [TypeORM Repository](https://github.com/typeorm/typeorm/blob/master/src/repository/Repository.ts) instead of using the `BaseRepository`.
 For this cases, you will need to *"mixin/patch"* the original `Repository` with the `BaseRepository`.
 By doing so, you will be able to use the original `Repository` and not change the code or use `BaseRepository`.
@@ -100,6 +82,14 @@ patchTypeORMRepositoryWithBaseRepository() // patch Repository with BaseReposito
 ```
 
 If there is a need to keep using the TypeORM [`TreeRepository`](https://github.com/typeorm/typeorm/blob/master/docs/tree-entities.md#working-with-tree-entities) instead of using `BaseTreeRepository`, use `patchTypeORMTreeRepositoryWithBaseTreeRepository`.
+
+
+---
+**IMPORTANT NOTE**
+
+Calling [initializeTransactionalContext](#initialization) and [patchTypeORMRepositoryWithBaseRepository](#patching-typeorm-repository) must happend BEFORE any application context is initialized!
+
+---
 
 
 
@@ -171,4 +161,20 @@ export class PostService {
     }
 }
 ```
+
+## Logging / Debug
+The `Transactional` uses the [Typeorm Connection logger](https://github.com/typeorm/typeorm/blob/master/docs/logging.md) to emit [`log` messages](https://github.com/typeorm/typeorm/blob/master/docs/logging.md#logging-options).
+
+In order to enable logs, you should set `logging: ["log"]` or `logging: ["all"]` to your typeorm logging configuration.
+
+The Transactional log message structure looks as follows:
+
+```
+Transactional@UNIQ_ID|CONNECTION_NAME|METHOD_NAME|ISOLATION|PROPAGATION - MESSAGE
+```
+* UNIQ_ID - a timestamp taken at the begining of the Transactional call
+* CONNECTION_NAME - The typeorm connection name passed to the Transactional decorator
+* METHOD_NAME - The decorated method in action
+* ISOLATION - The [Isolation Level](#isolation-levels) passed to the Transactional decorator
+* PROPAGATION - The [Propagation](#transaction-propagation) value passed to the Transactional decorator
 
