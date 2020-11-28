@@ -2,15 +2,17 @@ import { EntityManager, Repository, TreeRepository, MongoRepository } from 'type
 import { getEntityManagerOrTransactionManager } from './common'
 
 export const patchRepositoryManager = (repositoryType: any) => {
-  console.log(`Transactional@patchRepositoryManager repositoryType: ${repositoryType?.constructor?.name}`)
-  Object.defineProperty(repositoryType, "manager", {
-    get(){
+  console.log(
+    `Transactional@patchRepositoryManager repositoryType: ${repositoryType?.constructor?.name}`
+  )
+  Object.defineProperty(repositoryType, 'manager', {
+    get() {
       return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
     },
-    set(manager: EntityManager | undefined){
+    set(manager: EntityManager | undefined) {
       this._manager = manager
       this._connectionName = manager?.connection?.name
-    }
+    },
   })
 }
 
@@ -18,7 +20,10 @@ export const patchTypeORMRepositoryWithBaseRepository = () => {
   patchRepositoryManager(Repository.prototype)
   // Since MongoRepository inherits from Repository, but does declare the manager, we re-patch it
   // See #64 and #65
-  Object.defineProperty(MongoRepository.prototype, 'manager', { configurable: true, writable: true });
+  Object.defineProperty(MongoRepository.prototype, 'manager', {
+    configurable: true,
+    writable: true,
+  })
 }
 
 export const patchTypeORMTreeRepositoryWithBaseTreeRepository = () => {
