@@ -1,5 +1,5 @@
 import { getNamespace } from 'cls-hooked'
-import { EntityManager, getManager } from 'typeorm'
+import { EntityManager, getConnection, getManager } from 'typeorm'
 import {
   getEntityManagerForConnection,
   NAMESPACE_NAME,
@@ -35,23 +35,37 @@ export function Transactional(options?: {
       if (typeof tempConnectionName !== 'string') {
         tempConnectionName = tempConnectionName() || 'default'
       }
-          const connectionName: string = tempConnectionName
+      const connectionName: string = tempConnectionName
+      const methodNameStr = String(methodName)
+
       const propagation: Propagation =
         options && options.propagation ? options.propagation : Propagation.REQUIRED
       const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
+      const isCurrentTransactionActive = getManager(connectionName)?.queryRunner?.isTransactionActive
+
+      const operationId = String(new Date().getTime())
+      const logger = getConnection(connectionName).logger
+      const log = (message: string) => logger.log("log", `Transactional@${operationId}|${connectionName}|${methodNameStr}|${isolationLevel}|${propagation} - ${message}`)
+
+      log(`Before starting: isCurrentTransactionActive = ${isCurrentTransactionActive}`)
 
       const runOriginal = async () => originalMethod.apply(this, [...args])
       const runWithNewHook = async () => runInNewHookContext(context, runOriginal)
 
       const runWithNewTransaction = async () => {
         const transactionCallback = async (entityManager: EntityManager) => {
+          const isCurrentTransactionActive = entityManager?.queryRunner?.isTransactionActive
+          log(`runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${isCurrentTransactionActive}`)
           setEntityManagerForConnection(connectionName, context, entityManager)
           try {
             const result = await originalMethod.apply(this, [...args])
+            log(`runWithNewTransaction - Success`)
             return result
           } catch (e) {
+            log(`runWithNewTransaction - ERROR|${e}`)
             throw e
           } finally {
+            log(`runWithNewTransaction - reset entityManager in context`)
             setEntityManagerForConnection(connectionName, context, null)
           }
         }
@@ -109,10 +123,6 @@ export function Transactional(options?: {
               return runWithNewHook()
             }
         }
-        if (currentTransaction) {
-          return runOriginal()
-        }
-        return runWithNewTransaction()
       })
     }
 

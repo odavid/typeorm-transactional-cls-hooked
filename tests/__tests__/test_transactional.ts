@@ -36,7 +36,7 @@ beforeAll(async () => {
     password: 'postgres',
     entities: [Post],
     synchronize: true,
-    logging: true,
+    logging: "all",
   })
 })
 

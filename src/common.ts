@@ -7,8 +7,10 @@ export const NAMESPACE_NAME = '__typeOrm___cls_hooked_tx_namespace'
 const TYPE_ORM_KEY_PREFIX = '__typeOrm__transactionalEntityManager_'
 const TYPE_ORM_HOOK_KEY = '__typeOrm__transactionalCommitHooks'
 
-export const initializeTransactionalContext = () =>
-  getNamespace(NAMESPACE_NAME) || createNamespace(NAMESPACE_NAME)
+export const initializeTransactionalContext = () => {
+  console.log(`Transactional@initializeTransactionalContext`)
+  return getNamespace(NAMESPACE_NAME) || createNamespace(NAMESPACE_NAME)
+}
 
 export const getEntityManagerOrTransactionManager = (
   connectionName: string,

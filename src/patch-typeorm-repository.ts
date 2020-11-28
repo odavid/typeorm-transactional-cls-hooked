@@ -2,6 +2,7 @@ import { EntityManager, Repository, TreeRepository, MongoRepository } from 'type
 import { getEntityManagerOrTransactionManager } from './common'
 
 export const patchRepositoryManager = (repositoryType: any) => {
+  console.log(`Transactional@patchRepositoryManager repositoryType: ${repositoryType?.constructor?.name}`)
   Object.defineProperty(repositoryType, "manager", {
     get(){
       return getEntityManagerOrTransactionManager(this._connectionName, this._manager)
