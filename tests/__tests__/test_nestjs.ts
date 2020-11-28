@@ -1,12 +1,10 @@
-import { NestFactory } from "@nestjs/core"
-import { getConnection, Repository } from "typeorm"
-import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from "../../src"
-import { Post } from "../entity/Post"
-import {AppService } from "../nestjs/app.service"
-import { Test, TestingModule } from "@nestjs/testing"
-import { TypeOrmModule } from "@nestjs/typeorm"
+import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from '../../src'
+import { Post } from '../entity/Post'
+import { AppService } from '../nestjs/app.service'
+import { Test, TestingModule } from '@nestjs/testing'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
-describe("NestJS", () => {
+describe('NestJS', () => {
   let app: TestingModule
   let service: AppService
   beforeAll(async () => {
@@ -22,9 +20,9 @@ describe("NestJS", () => {
           password: 'postgres',
           entities: [Post],
           synchronize: true,
-          logging: "all",
+          logging: 'all',
         }),
-          TypeOrmModule.forFeature([Post])
+        TypeOrmModule.forFeature([Post]),
       ],
       exports: [],
       providers: [AppService],
@@ -34,12 +32,12 @@ describe("NestJS", () => {
 
   afterAll(async () => await app.close())
 
-  it('Creates a post using service', async (done) => {
-    const message = "NestJS - A successful post"
+  it('Creates a post using service', async done => {
+    const message = 'NestJS - A successful post'
     const post = await service.createPost(message)
     expect(post.id).toBeGreaterThan(0)
     setTimeout(async () => {
-      expect(service.success).toEqual("true")
+      expect(service.success).toEqual('true')
       const dbPost = await service.getPostByMessage(message)
       console.log(`dbPost: ${dbPost}`)
       expect(dbPost).toBeTruthy()
@@ -47,13 +45,13 @@ describe("NestJS", () => {
     }, 1000)
   })
 
-  it('Fails creating a post using service', async (done) => {
-    const message = "NestJS - An unsuccessful post"
-    try{
+  it('Fails creating a post using service', async done => {
+    const message = 'NestJS - An unsuccessful post'
+    try {
       const post = await service.createPost(message, true)
-    }catch(e){
+    } catch (e) {
       setTimeout(async () => {
-        expect(service.success).toEqual("false")
+        expect(service.success).toEqual('false')
         const dbPost = await service.getPostByMessage(message)
         console.log(`dbPost: ${dbPost}`)
         expect(dbPost).toBeFalsy()

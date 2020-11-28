@@ -21,7 +21,6 @@ export function Transactional(options?: {
   propagation?: Propagation
   isolationLevel?: IsolationLevel
 }): MethodDecorator {
-
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value
     descriptor.value = function(...args: any[]) {
@@ -31,7 +30,8 @@ export function Transactional(options?: {
           'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
         )
       }
-      let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
+      let tempConnectionName =
+        options && options.connectionName ? options.connectionName : 'default'
       if (typeof tempConnectionName !== 'string') {
         tempConnectionName = tempConnectionName() || 'default'
       }
@@ -41,11 +41,16 @@ export function Transactional(options?: {
       const propagation: Propagation =
         options && options.propagation ? options.propagation : Propagation.REQUIRED
       const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
-      const isCurrentTransactionActive = getManager(connectionName)?.queryRunner?.isTransactionActive
+      const isCurrentTransactionActive = getManager(connectionName)?.queryRunner
+        ?.isTransactionActive
 
       const operationId = String(new Date().getTime())
       const logger = getConnection(connectionName).logger
-      const log = (message: string) => logger.log("log", `Transactional@${operationId}|${connectionName}|${methodNameStr}|${isolationLevel}|${propagation} - ${message}`)
+      const log = (message: string) =>
+        logger.log(
+          'log',
+          `Transactional@${operationId}|${connectionName}|${methodNameStr}|${isolationLevel}|${propagation} - ${message}`
+        )
 
       log(`Before starting: isCurrentTransactionActive = ${isCurrentTransactionActive}`)
 
@@ -55,7 +60,9 @@ export function Transactional(options?: {
       const runWithNewTransaction = async () => {
         const transactionCallback = async (entityManager: EntityManager) => {
           const isCurrentTransactionActive = entityManager?.queryRunner?.isTransactionActive
-          log(`runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${isCurrentTransactionActive}`)
+          log(
+            `runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${isCurrentTransactionActive}`
+          )
           setEntityManagerForConnection(connectionName, context, entityManager)
           try {
             const result = await originalMethod.apply(this, [...args])
