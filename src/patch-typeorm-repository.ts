@@ -2,6 +2,7 @@ import { EntityManager, Repository, TreeRepository, MongoRepository } from 'type
 import { getEntityManagerOrTransactionManager } from './common'
 
 export const patchRepositoryManager = (repositoryType: any) => {
+  // tslint:disable-next-line: no-console
   console.log(
     `Transactional@patchRepositoryManager repositoryType: ${repositoryType?.constructor?.name}`
   )

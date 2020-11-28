@@ -59,9 +59,8 @@ export function Transactional(options?: {
 
       const runWithNewTransaction = async () => {
         const transactionCallback = async (entityManager: EntityManager) => {
-          const isCurrentTransactionActive = entityManager?.queryRunner?.isTransactionActive
           log(
-            `runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${isCurrentTransactionActive}`
+            `runWithNewTransaction - set entityManager in context: isCurrentTransactionActive: ${entityManager?.queryRunner?.isTransactionActive}`
           )
           setEntityManagerForConnection(connectionName, context, entityManager)
           try {

@@ -8,6 +8,7 @@ const TYPE_ORM_KEY_PREFIX = '__typeOrm__transactionalEntityManager_'
 const TYPE_ORM_HOOK_KEY = '__typeOrm__transactionalCommitHooks'
 
 export const initializeTransactionalContext = () => {
+  // tslint:disable-next-line: no-console
   console.log(`Transactional@initializeTransactionalContext`)
   return getNamespace(NAMESPACE_NAME) || createNamespace(NAMESPACE_NAME)
 }
