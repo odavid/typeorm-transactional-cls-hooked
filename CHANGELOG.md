@@ -1,3 +1,6 @@
+## 0.1.18
+* Error when using repository methods outside of a request context [#73](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/73)
+
 ## 0.1.17
 * Added Transactional Debug Logs - Using Typeorm connection logger [#69](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/69)
 
