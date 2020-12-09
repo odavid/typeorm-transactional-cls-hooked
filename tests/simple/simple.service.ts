@@ -26,6 +26,6 @@ export class SimpleService {
   }
 
   async getPostByMessage(message: string): Promise<Post | undefined> {
-    return this.repository.findOne({ message: message })
+    return this.repository.findOne({ message })
   }
 }

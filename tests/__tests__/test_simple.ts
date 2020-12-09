@@ -32,6 +32,7 @@ describe('Simple', () => {
     setTimeout(async () => {
       expect(service.success).toEqual('true')
       const dbPost = await service.getPostByMessage(message)
+      // tslint:disable-next-line: no-console
       console.log(`dbPost: ${dbPost}`)
       expect(dbPost).toBeTruthy()
       done()
@@ -48,6 +49,7 @@ describe('Simple', () => {
       setTimeout(async () => {
         expect(service.success).toEqual('false')
         const dbPost = await service.getPostByMessage(message)
+        // tslint:disable-next-line: no-console
         console.log(`dbPost: ${dbPost}`)
         expect(dbPost).toBeFalsy()
         done()
