@@ -20,7 +20,7 @@ export const getEntityManagerOrTransactionManager = (
   const context = getNamespace(NAMESPACE_NAME)
 
   if (context && context.active) {
-    return getEntityManagerForConnection(connectionName, context)
+    return getEntityManagerForConnection(connectionName, context) || entityManager
   }
   return entityManager || getManager(connectionName)
 }
