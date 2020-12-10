@@ -1,9 +1,9 @@
 import { EntityManager, Repository, TreeRepository, MongoRepository } from 'typeorm'
 import { getEntityManagerOrTransactionManager } from './common'
+import { debugLog } from './DebugLog'
 
 export const patchRepositoryManager = (repositoryType: any) => {
-  // tslint:disable-next-line: no-console
-  console.log(
+  debugLog(
     `Transactional@patchRepositoryManager repositoryType: ${repositoryType?.constructor?.name}`
   )
   Object.defineProperty(repositoryType, 'manager', {

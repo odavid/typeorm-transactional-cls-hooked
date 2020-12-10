@@ -178,3 +178,5 @@ Transactional@UNIQ_ID|CONNECTION_NAME|METHOD_NAME|ISOLATION|PROPAGATION - MESSAG
 * ISOLATION - The [Isolation Level](#isolation-levels) passed to the Transactional decorator
 * PROPAGATION - The [Propagation](#transaction-propagation) value passed to the Transactional decorator
 
+During [initialization](#initialization) and [patching repositories](#patching-typeorm-repository), the [Typeorm Connection logger](https://github.com/typeorm/typeorm/blob/master/docs/logging.md) is not available yet.
+For this reason, the `console.log()` is being used, but only if `TRANSACTIONAL_CONSOLE_DEBUG` environment variable is defined.
