@@ -1,6 +1,6 @@
 {
   "name": "typeorm-transactional-cls-hooked",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "A Transactional Method Decorator for typeorm that uses cls-hooked to handle and propagate transactions between different repositories and service methods. Inpired by Spring Trasnactional Annotation and Sequelize CLS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
