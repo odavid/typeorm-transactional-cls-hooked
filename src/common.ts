@@ -1,6 +1,7 @@
 import { createNamespace, getNamespace, Namespace } from 'cls-hooked'
 import { EventEmitter } from 'events'
 import { EntityManager, getManager } from 'typeorm'
+import { debugLog } from './DebugLog'
 
 export const NAMESPACE_NAME = '__typeOrm___cls_hooked_tx_namespace'
 
@@ -8,8 +9,7 @@ const TYPE_ORM_KEY_PREFIX = '__typeOrm__transactionalEntityManager_'
 const TYPE_ORM_HOOK_KEY = '__typeOrm__transactionalCommitHooks'
 
 export const initializeTransactionalContext = () => {
-  // tslint:disable-next-line: no-console
-  console.log(`Transactional@initializeTransactionalContext`)
+  debugLog(`Transactional@initializeTransactionalContext`)
   return getNamespace(NAMESPACE_NAME) || createNamespace(NAMESPACE_NAME)
 }
 

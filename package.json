@@ -31,7 +31,7 @@
     "typedoc": "typedoc --out ./docs src/**.ts",
     "setup-test-db": "npm run teardown-test-db; docker-compose -f tests/docker-compose.yaml up -d && sleep 3",
     "teardown-test-db": "docker-compose -f tests/docker-compose.yaml down --remove-orphans -v",
-    "test": "npm run setup-test-db && jest"
+    "test": "npm run setup-test-db && TRANSACTIONAL_CONSOLE_DEBUG=true jest"
   },
   "engines": {
     "node": ">=8.0.0"
