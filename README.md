@@ -163,7 +163,7 @@ export class PostService {
 ```
 
 ## Unit Test Mocking
-`@Transactional` and `BaseRepository` can be mocked to prevent running any of this library code in unit tests.
+`@Transactional` and `BaseRepository` can be mocked to prevent running any of the transactional code in unit tests.
 
 This can be accomplished in Jest with:
 
