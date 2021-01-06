@@ -162,6 +162,20 @@ export class PostService {
 }
 ```
 
+## Unit Test Mocking
+`@Transactional` and `BaseRepository` can be mocked to prevent running any of the transactional code in unit tests.
+
+This can be accomplished in Jest with:
+
+```typescript
+jest.mock('typeorm-transactional-cls-hooked', () => ({
+  Transactional: () => () => ({}),
+  BaseRepository: class {},
+}));
+```
+
+Repositories, services, etc. can be mocked as usual.
+
 ## Logging / Debug
 The `Transactional` uses the [Typeorm Connection logger](https://github.com/typeorm/typeorm/blob/master/docs/logging.md) to emit [`log` messages](https://github.com/typeorm/typeorm/blob/master/docs/logging.md#logging-options).
 
