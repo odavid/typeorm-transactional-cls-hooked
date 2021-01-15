@@ -52,7 +52,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.6.3",
     "ts-jest": "^26.4.4",
-    "ts-node": "^8.7.0",
+    "ts-node": "^9.0.0",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.15.0",
     "typedoc": "^0.17.1",
