@@ -1,3 +1,6 @@
+# 0.1.20
+* Feature request: make NAMESPACE_NAME exported [#82](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/82)
+
 ## 0.1.19
 * Introduced TRANSACTIONAL_CONSOLE_DEBUG environment variable to control debug logging when connection logger is not available [#76](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/76)
 
