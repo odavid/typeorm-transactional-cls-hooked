@@ -103,7 +103,7 @@ Calling [initializeTransactionalContext](#initialization) and [patchTypeORMRepos
 
 ```typescript
 export class PostService {
-  constructor(readonly repository: PostRepsitory)
+  constructor(readonly repository: PostRepository)
 
   @Transactional() // Will open a transaction if one doesn't already exist
   async createPost(id, message): Promise<Post> {
@@ -150,7 +150,7 @@ To circumvent that, we expose three helper methods that allow you to hook into t
 
 ```typescript
 export class PostService {
-    constructor(readonly repository: PostRepsitory, readonly events EventService) {}
+    constructor(readonly repository: PostRepository, readonly events: EventService) {}
 
     @Transactional()
     async createPost(id, message): Promise<Post> {
