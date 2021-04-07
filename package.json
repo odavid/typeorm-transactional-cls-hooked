@@ -38,8 +38,7 @@
   },
   "dependencies": {
     "@types/cls-hooked": "^4.2.1",
-    "cls-hooked": "^4.2.2",
-    "delay": "^5.0.0"
+    "cls-hooked": "^4.2.2"
   },
   "devDependencies": {
     "@nestjs/common": "^7.5.5",
@@ -47,6 +46,7 @@
     "@nestjs/testing": "^7.5.5",
     "@nestjs/typeorm": "^7.1.5",
     "@types/jest": "^26.0.15",
+    "delay": "^5.0.0",
     "jest": "^26.6.3",
     "pg": "^8.5.1",
     "prettier": "^1.14.3",
