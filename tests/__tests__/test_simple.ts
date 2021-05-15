@@ -30,7 +30,7 @@ describe('Simple', () => {
     const message = 'simple - A successful post'
     const post = await service.createPost(message)
 
-    await delay(10)
+    await delay(100)
 
     expect(post.id).toBeGreaterThan(0)
     expect(service.success).toEqual('true')
@@ -46,7 +46,7 @@ describe('Simple', () => {
     const message = 'simple - An unsuccessful post'
     expect(service.createPost(message, true)).rejects.toThrow()
 
-    await delay(10);
+    await delay(100)
 
     expect(service.success).toEqual('false')
     const dbPost = await service.getPostByMessage(message)
@@ -115,7 +115,7 @@ describe('Simple', () => {
       return createdPost;
     })
 
-    await delay(10);
+    await delay(100)
 
     expect(post.id).toBeGreaterThan(0)
     expect(commitHookCalled).toBeTruthy();
