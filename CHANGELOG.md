@@ -1,3 +1,6 @@
+# 0.1.21
+* add runInTransaction and wrapInTransaction [#94](https://github.com/odavid/typeorm-transactional-cls-hooked/pull/94)
+
 # 0.1.20
 * Feature request: make NAMESPACE_NAME exported [#82](https://github.com/odavid/typeorm-transactional-cls-hooked/issues/82)
 
