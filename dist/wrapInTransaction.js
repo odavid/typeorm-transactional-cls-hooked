@@ -68,13 +68,14 @@ function wrapInTransaction(fn, options) {
         if (typeof tempConnectionName !== 'string') {
             tempConnectionName = tempConnectionName() || 'default';
         }
+        var dataSource = this === null || this === void 0 ? void 0 : this['__data_source_key__'];
         var connectionName = tempConnectionName;
         var methodNameStr = String(options === null || options === void 0 ? void 0 : options.name);
         var propagation = options && options.propagation ? options.propagation : Propagation_1.Propagation.REQUIRED;
         var isolationLevel = options && options.isolationLevel;
         var isCurrentTransactionActive = (_b = (_a = (0, typeorm_1.getManager)(connectionName)) === null || _a === void 0 ? void 0 : _a.queryRunner) === null || _b === void 0 ? void 0 : _b.isTransactionActive;
         var operationId = String(new Date().getTime());
-        var logger = (0, typeorm_1.getConnection)(connectionName).logger;
+        var logger = dataSource.logger;
         var log = function (message) {
             return logger.log('log', "Transactional@".concat(operationId, "|").concat(connectionName, "|").concat(methodNameStr, "|").concat(isolationLevel, "|").concat(propagation, " - ").concat(message));
         };
@@ -121,11 +122,11 @@ function wrapInTransaction(fn, options) {
                         }); };
                         if (!isolationLevel) return [3, 2];
                         return [4, (0, hook_1.runInNewHookContext)(context, function () {
-                                return (0, typeorm_1.getManager)(connectionName).transaction(isolationLevel, transactionCallback);
+                                return dataSource.manager.transaction(isolationLevel, transactionCallback);
                             })];
                     case 1: return [2, _a.sent()];
                     case 2: return [4, (0, hook_1.runInNewHookContext)(context, function () {
-                            return (0, typeorm_1.getManager)(connectionName).transaction(transactionCallback);
+                            return dataSource.manager.transaction(transactionCallback);
                         })];
                     case 3: return [2, _a.sent()];
                 }
