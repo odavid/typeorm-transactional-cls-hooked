@@ -47,7 +47,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.wrapInTransaction = void 0;
 var cls_hooked_1 = require("cls-hooked");
-var typeorm_1 = require("typeorm");
 var common_1 = require("./common");
 var hook_1 = require("./hook");
 var Propagation_1 = require("./Propagation");
@@ -55,7 +54,7 @@ var TransactionalError_1 = require("./TransactionalError");
 function wrapInTransaction(fn, options) {
     function wrapped() {
         var _this = this;
-        var _a, _b;
+        var _a;
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             newArgs[_i] = arguments[_i];
@@ -73,7 +72,7 @@ function wrapInTransaction(fn, options) {
         var methodNameStr = String(options === null || options === void 0 ? void 0 : options.name);
         var propagation = options && options.propagation ? options.propagation : Propagation_1.Propagation.REQUIRED;
         var isolationLevel = options && options.isolationLevel;
-        var isCurrentTransactionActive = (_b = (_a = (0, typeorm_1.getManager)(connectionName)) === null || _a === void 0 ? void 0 : _a.queryRunner) === null || _b === void 0 ? void 0 : _b.isTransactionActive;
+        var isCurrentTransactionActive = (_a = dataSource.manager.queryRunner) === null || _a === void 0 ? void 0 : _a.isTransactionActive;
         var operationId = String(new Date().getTime());
         var logger = dataSource.logger;
         var log = function (message) {

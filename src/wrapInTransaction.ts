@@ -41,7 +41,7 @@ export function wrapInTransaction<Func extends (this: any, ...args: any[]) => Re
     const propagation: Propagation =
       options && options.propagation ? options.propagation : Propagation.REQUIRED
     const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
-    const isCurrentTransactionActive = getManager(connectionName)?.queryRunner?.isTransactionActive
+    const isCurrentTransactionActive = dataSource.manager.queryRunner?.isTransactionActive
 
     const operationId = String(new Date().getTime())
     const logger = dataSource.logger
