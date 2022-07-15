@@ -1,0 +1,1 @@
+{"version":3,"file":"runInTransaction.js","sourceRoot":"","sources":["../src/runInTransaction.ts"],"names":[],"mappings":";;;AAAA,yDAAiE;AAEjE,SAAgB,gBAAgB,CAC9B,EAAQ,EACR,OAAiB;IAEjB,IAAM,OAAO,GAAG,IAAA,qCAAiB,EAAC,EAAE,EAAE,OAAO,CAAC,CAAC;IAC/C,OAAO,OAAO,EAAE,CAAC;AACnB,CAAC;AAND,4CAMC"}

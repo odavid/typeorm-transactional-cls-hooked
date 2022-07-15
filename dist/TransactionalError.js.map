@@ -1,0 +1,1 @@
+{"version":3,"file":"TransactionalError.js","sourceRoot":"","sources":["../src/TransactionalError.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;IAAwC,sCAAK;IAE3C,4BAAY,OAAe;QAA3B,YACE,kBAAM,OAAO,CAAC,SAEf;QAJM,UAAI,GAAG,oBAAoB,CAAA;QAGhC,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,kBAAkB,CAAC,SAAS,CAAC,CAAA;;IAC3D,CAAC;IACH,yBAAC;AAAD,CAAC,AAND,CAAwC,KAAK,GAM5C;AANY,gDAAkB"}

@@ -1,0 +1,9 @@
+export declare enum Propagation {
+    MANDATORY = "MANDATORY",
+    NESTED = "NESTED",
+    NEVER = "NEVER",
+    NOT_SUPPORTED = "NOT_SUPPORTED",
+    REQUIRED = "REQUIRED",
+    REQUIRES_NEW = "REQUIRES_NEW",
+    SUPPORTS = "SUPPORTS"
+}
