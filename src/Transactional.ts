@@ -1,3 +1,5 @@
+import { Inject } from '@nestjs/common'
+import { DataSource } from 'typeorm'
 import { Options, wrapInTransaction } from './wrapInTransaction'
 
 /**
@@ -8,6 +10,7 @@ import { Options, wrapInTransaction } from './wrapInTransaction'
  */
 export function Transactional(options?: Options): MethodDecorator {
   return (target: any, methodName: string | symbol, descriptor: TypedPropertyDescriptor<any>) => {
+    Inject(DataSource)(target, '__data_source_key__')
     const originalMethod = descriptor.value
     descriptor.value = wrapInTransaction(originalMethod, { ...options, name: methodName })
 

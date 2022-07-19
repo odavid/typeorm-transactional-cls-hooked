@@ -1,5 +1,5 @@
 import { getNamespace } from 'cls-hooked'
-import { EntityManager, getConnection, getManager } from 'typeorm'
+import { DataSource, EntityManager } from 'typeorm'
 import {
   getEntityManagerForConnection,
   NAMESPACE_NAME,
@@ -14,7 +14,8 @@ export type Options = {
   connectionName?: string | (() => string | undefined)
   propagation?: Propagation
   isolationLevel?: IsolationLevel
-};
+  dataSource?: DataSource
+}
 
 export function wrapInTransaction<Func extends (this: any, ...args: any[]) => ReturnType<Func>>(
   fn: Func,
@@ -27,22 +28,23 @@ export function wrapInTransaction<Func extends (this: any, ...args: any[]) => Re
         'No CLS namespace defined in your app ... please call initializeTransactionalContext() before application start.'
       )
     }
-    let tempConnectionName =
-      options && options.connectionName ? options.connectionName : 'default'
+    let tempConnectionName = options && options.connectionName ? options.connectionName : 'default'
     if (typeof tempConnectionName !== 'string') {
       tempConnectionName = tempConnectionName() || 'default'
     }
+
+    const dataSource: DataSource = (this as any)?.['__data_source_key__']
+
     const connectionName: string = tempConnectionName
     const methodNameStr = String(options?.name)
 
     const propagation: Propagation =
       options && options.propagation ? options.propagation : Propagation.REQUIRED
     const isolationLevel: IsolationLevel | undefined = options && options.isolationLevel
-    const isCurrentTransactionActive = getManager(connectionName)?.queryRunner
-      ?.isTransactionActive
+    const isCurrentTransactionActive = dataSource.manager.queryRunner?.isTransactionActive
 
     const operationId = String(new Date().getTime())
-    const logger = getConnection(connectionName).logger
+    const logger = dataSource.logger
     const log = (message: string) =>
       logger.log(
         'log',
@@ -75,16 +77,16 @@ export function wrapInTransaction<Func extends (this: any, ...args: any[]) => Re
 
       if (isolationLevel) {
         return await runInNewHookContext(context, () =>
-          getManager(connectionName).transaction(isolationLevel, transactionCallback)
+          dataSource.manager.transaction(isolationLevel, transactionCallback)
         )
       } else {
         return await runInNewHookContext(context, () =>
-          getManager(connectionName).transaction(transactionCallback)
+          dataSource.manager.transaction(transactionCallback)
         )
       }
     }
 
-    return context.runAndReturn(async () => {
+    return (context.runAndReturn(async () => {
       const currentTransaction = getEntityManagerForConnection(connectionName, context)
 
       switch (propagation) {
@@ -126,8 +128,8 @@ export function wrapInTransaction<Func extends (this: any, ...args: any[]) => Re
             return runWithNewHook()
           }
       }
-    }) as unknown as ReturnType<Func>;
+    }) as unknown) as ReturnType<Func>
   }
 
-  return wrapped as Func;
+  return wrapped as Func
 }
