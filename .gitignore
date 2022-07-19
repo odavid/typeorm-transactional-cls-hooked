@@ -5,6 +5,7 @@ coverage
 *.log
 .vscode
 .idea
+dist
 compiled
 *.tgz
 docs
